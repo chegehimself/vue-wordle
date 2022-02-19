@@ -24,6 +24,47 @@ export function getWordOfTheDay() {
   return answers[day]
 }
 
+
+export function getWordOfThe4Hours() {
+  if (location.search) {
+    try {
+      const query = atob(location.search.slice(1))
+      if (query.length !== 5) {
+        alert(`Incorrect word length from encoded query. ${defaultMessage}`)
+      } else {
+        return query
+      }
+    } catch (e) {
+      alert(`Malformed encoded word query. ${defaultMessage}`)
+    }
+  }
+
+  const now = new Date()
+  const start = new Date(new Date().getFullYear(), 0, 0)
+  const diff = Number(now) - Number(start)
+  let day = Math.floor(diff / (1000 * 60 * 60 * 24))
+  while (day > answers.length) {
+    day -= answers.length
+  }
+  const hours = new Date().getHours()
+  if (hours >= 4 && hours < 8) {
+    day += 1
+  }
+  if (hours >= 8 && hours < 12) {
+    day += 2
+  }
+  if (hours >= 12 && hours < 16) {
+    day += 3
+  }
+  if (hours >= 16 && hours < 20) {
+    day += 4
+  }
+  if (hours >= 20 && hours !== 0) {
+    day += 5
+  }
+  return answers[day]
+}
+
 // copied from Wordle source
 const answers = [
   'cigar',
