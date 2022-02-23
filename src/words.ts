@@ -46,23 +46,33 @@ export function getWordOfThe4Hours() {
   while (day > answers.length) {
     day -= answers.length
   }
+  const answersCopy = answers.slice()
+  const fourHoursAnswers: any = []
+  answersCopy.map((ans, index) => {
+    if ((index + 1) % 6 === 0){
+      const sixWords = answersCopy.splice(0, 6)
+      fourHoursAnswers.push(sixWords)
+    }
+  })
   const hours = new Date().getHours()
+  if (hours < 4) {
+    return fourHoursAnswers[day][0]
+  }
   if (hours >= 4 && hours < 8) {
-    day += 1
+    return fourHoursAnswers[day][1]
   }
   if (hours >= 8 && hours < 12) {
-    day += 2
+    return fourHoursAnswers[day][2]
   }
   if (hours >= 12 && hours < 16) {
-    day += 3
+    return fourHoursAnswers[day][3]
   }
   if (hours >= 16 && hours < 20) {
-    day += 4
+    return fourHoursAnswers[day][4]
   }
   if (hours >= 20 && hours !== 0) {
-    day += 5
+    return fourHoursAnswers[day][5]
   }
-  return answers[day]
 }
 
 // copied from Wordle source
